@@ -19,7 +19,7 @@ Bem-vindo ao repositório back-end do SisEC - Sistema de Emissão de Certificado
 ```sh
 docker-compose up -d
 ```
-
+k
 ## Acessar o container app 
 ```sh
 docker-compose exec app bash
@@ -46,6 +46,6 @@ php artisan passport:install
 ```
 
 ## Acesse a documentação completa da API
-[documentação](https://documenter.getpostman.com/view/27788691/2sA3kVjM1t)
+[documentação](https://documenter.getpostman.com/view/27788691/2sAXxV4p13)
 
 
