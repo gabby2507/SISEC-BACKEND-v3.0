@@ -25,12 +25,14 @@ Route::prefix('v1')->group(function () {
     Route::post('/loginuser',  [UsersController::class, 'login']);
 });
 
+
+
 Route::middleware('auth:api')->prefix('v1')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::post('/logout',  [UsersController::class, 'logout']);
+    // Route::post('/logout',  [UsersController::class, 'logout']);
 
-    Route::apiResource('/tasks', TasksController::class);
-    Route::get('/tasks/status/{status}', [TasksController::class, 'filterByStatus']);
+    // Route::apiResource('/tasks', TasksController::class);
+    // Route::get('/tasks/status/{status}', [TasksController::class, 'filterByStatus']);
 });
