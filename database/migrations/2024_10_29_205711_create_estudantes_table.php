@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CrateStudentsTable extends Migration
+class CreateEstudantesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CrateStudentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('estudante', function (Blueprint $table) {
             $table->id();
             $table->string('numerEstudante')->unique();
             $table->string('nome');
@@ -28,7 +28,6 @@ class CrateStudentsTable extends Migration
             $table->timestamps();
         });
     }
-    
 
     /**
      * Reverse the migrations.
@@ -37,6 +36,6 @@ class CrateStudentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('estudantes');
     }
 }

@@ -10,16 +10,27 @@ class StudentController extends Controller
 {
     public function fetchStudentData(Request $request)
     {
+       
         $request->validate([
             'student_number' => 'required|string',
         ]);
-
+    
         $studentNumber = $request->input('student_number');
-        
-        // Enviar solicitação para o sistema de gestão de estudantes
-        $response = Http::get('https://url-do-sistema-gestao-estudantes.com/api/student', [
-            'student_number' => $studentNumber,
+    
+        // Primeiro, obtenha o token JWT de autenticação
+        $authResponse = Http::post('http://localhost:3000/api/auth/login', [
+            'email' => 'vanilsonhector@gmail.com',
+            'password' => 'aaabbbccc',
         ]);
+
+        if ($authResponse->failed()) {
+            return response()->json(['message' => 'Falha na autenticação'], 401);
+        }
+    
+        $token = $authResponse->json()['token'];
+    
+        // Depois, faça a requisição para obter os dados do estudante usando o token
+        $response = Http::withToken($token)->get("http://localhost:3000/api/students/{$studentNumber}");
 
         if ($response->successful()) {
             $studentData = $response->json();
@@ -28,12 +39,18 @@ class StudentController extends Controller
             $student = Student::updateOrCreate(
                 ['student_number' => $studentNumber],
                 [
-                    'name' => $studentData['name'],
-                    'bi_number' => $studentData['bi_number'],
-                    'course' => $studentData['course'],
-                    'admission_year' => $studentData['admission_year'],
-                    'completion_year' => $studentData['completion_year'],
-                    'final_grade' => $studentData['final_grade'],
+                    
+                    "numerEstudante"=> $studentData["numerEstudante"],
+                    "nome"=> $studentData["nome"],
+                    "BI"=> $studentData["BI"],
+                    "faculdade"=> $studentData["faculdade"],
+                    "curso"=> $studentData["curso"],
+                    "dataInicio"=> $studentData["dataInicio"],
+                    "dataFim"=> $studentData["dataFim"],
+                    "mediasCadeiras"=> $studentData["mediasCadeiras"],
+                    "mediaGlobal"=> $studentData["mediaGlobal"],
+                    "nomeReitor"=> $studentData["nomeReitor"],
+                  
                 ]
             );
 
