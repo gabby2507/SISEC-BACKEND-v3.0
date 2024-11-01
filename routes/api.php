@@ -36,3 +36,5 @@ Route::middleware('auth:api')->prefix('v1')->group(function () {
     // Route::apiResource('/tasks', TasksController::class);
     // Route::get('/tasks/status/{status}', [TasksController::class, 'filterByStatus']);
 });
+
+Route::post('/student-data', [StudentDataController::class, 'fecthStudentData']);
