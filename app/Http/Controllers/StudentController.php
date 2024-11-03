@@ -8,7 +8,7 @@ use App\Models\Student;
 
 class StudentController extends Controller
 {
-    public function fetchStudentData(Request $request)
+    /*public function fetchStudentData(Request $request)
     {
        
         $request->validate([
@@ -58,5 +58,48 @@ class StudentController extends Controller
         }
 
         return response()->json(['message' => 'Erro ao buscar dados do estudante'], 500);
+    }*/
+
+
+    public function fetchStudentData(Request $request)
+    {
+       
+        $request->validate([
+            'student_number' => 'required|string',
+        ]);
+        $campos = $request->input('student_number');
+        
+    //return "https://api.econlab.co.mz/api/certificado?numeroEstudante={$campos}";
+        // Depois, faça a requisição para obter os dados do estudante usando o token
+        $response = Http::get("https://api.econlab.co.mz/api/certificado?numeroEstudante={$campos}");
+
+        return $response->json();
+        if ($response->successful()) {
+            $studentData = $response->json();
+
+            // Salvar dados no banco de dados do SISEC
+            $student = Student::updateOrCreate(
+                ['student_number' => $studentNumber],
+                [
+                    
+                    "numerEstudante"=> $studentData["numerEstudante"],
+                    "nome"=> $studentData["nome"],
+                    "BI"=> $studentData["BI"],
+                    "faculdade"=> $studentData["faculdade"],
+                    "curso"=> $studentData["curso"],
+                    "dataInicio"=> $studentData["dataInicio"],
+                    "dataFim"=> $studentData["dataFim"],
+                    "mediasCadeiras"=> $studentData["mediasCadeiras"],
+                    "mediaGlobal"=> $studentData["mediaGlobal"],
+                    "nomeReitor"=> $studentData["nomeReitor"],
+                  
+                ]
+            );
+
+            return response()->json($student);
+        }
+
+        return response()->json(['message' => 'Erro ao buscar dados do estudante'], 500);
     }
+
 }

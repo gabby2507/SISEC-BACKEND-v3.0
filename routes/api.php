@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\TasksController;
+use App\Http\Controllers\StudentController;
 
 
 /*
@@ -37,4 +38,4 @@ Route::middleware('auth:api')->prefix('v1')->group(function () {
     // Route::get('/tasks/status/{status}', [TasksController::class, 'filterByStatus']);
 });
 
-Route::post('/student-data', [StudentDataController::class, 'fecthStudentData']);
+Route::post('/student-data', [StudentController::class, 'fetchStudentData']);
